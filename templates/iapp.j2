@@ -1,0 +1,129 @@
+{
+{% if create_pool != "n" %} 
+  "tables": [
+        {
+            "name": "pool__servers",
+            "columnNames": [
+                "addr",
+                "name",
+                "port"
+            ],
+            "rows": [
+                {% set vip_plist = vip_pool.split('#') %}
+                {% for pool in vip_plist %}
+                {% set pool_items = pool.split(',') %}
+                { "row": ["{{ pool_items[0] }}","{{ pool_items[1] }}","{{ pool_items[2] }}"] }{%- if not loop.last -%},{% endif %}
+                {% endfor %}
+            ]
+        }
+    ],
+{% endif %}
+  "variables": [
+{% if create_pool != "n" %} 
+    {
+      "name": "pool__create_pool",
+      "value": "true"
+    },
+{% else %}
+    {
+      "name": "pool__create_pool",
+      "value": "false"
+    },
+{% endif %}
+    {
+      "name": "general__deployment",
+      "value": "standalone"
+    },
+    {
+      "name": "inheritedTrafficGroup",
+      "value": "true"
+    },
+    {
+      "name": "general__config_mode",
+      "value": "standard"
+    },
+    {
+      "name": "application__ssl_option",
+      "value": "bridge"
+    },
+    {
+      "name": "application__protocol",
+      "value": "HTTP"
+    },
+    {
+      "name": "application__desc",
+      "value": "{{ vip_desc }}"
+    },
+{% if vip_irules == "" %}
+    {
+      "name": "application__irules",
+      "value": "no"
+    },
+{% else %}
+    {
+      "name": "application__irules",
+      "value": "yes"
+    },
+	{
+      "name": "virtual_server__rules",
+      "value": "{{ vip_irules }}"
+    },
+{% endif %}
+    {
+      "name": "virtual_server__destination",
+      "value": "{{ vip_ip }}"
+    },
+    {
+      "name": "virtual_server__port_secure",
+      "value": "{{ vip_port }}"
+    },
+    {
+      "name": "virtual_server__redirect_secure",
+      "value": "no"
+    },
+    {
+      "name": "virtual_server__oneconnect",
+      "value": "yes"
+    },
+	{
+      "name": "virtual_server__http_compression_profile",
+      "value": "/Common/httpcompression"
+    },
+    {
+      "name": "virtual_server__http_persist",
+      "value": "{{ vip_persist }}"
+    },
+    {
+      "name": "virtual_server__http_persist_{{ vip_persist }}_profile",
+      "value": "/Common/{{ vip_persist_profile }}"
+    },
+    {
+      "name": "ssl__client_ssl_profile",
+      "value": "/#create_new#"
+    },
+    {
+      "name": "ssl__parent",
+      "value": "/Common/{{ ssl_parent }}"
+    },
+    {
+      "name": "ssl__chain",
+      "value": "/#do_not_use#"
+    },
+    {
+      "name": "ssl__cert",
+      "value": "/Common/{{ vip_cert }}"
+    },
+    {
+      "name": "ssl__key",
+      "value": "/Common/{{ vip_cert_key }}"
+    },
+    {
+      "name": "ssl__server_ssl_profile",
+      "value": "/Common/serverssl"
+    },
+    {
+      "name": "pool__monitor",
+      "value": "/Common/https"
+    }
+  ]
+}

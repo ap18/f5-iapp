@@ -1,0 +1,2 @@
+#iapp_service_name,vip_ip,vip_port,vip_cert,vip_cert_key,vip_pool,vip_desc,create_pool (y/n),vip_irules,vip_persist,vip_persist_profile,ssl_parent
+dev01.org,10.0.0.1,443,dev01.org-2018.crt,dev01.org-2018.key,,dev01,,,cookie,cookie,clientssl-default-2018
