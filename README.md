@@ -15,11 +15,9 @@ Role Variables
 This role uses a csv file as an input to read and create/deploy the iApp on F5. 
 Here is the sample csv file format
 
+#iapp_service_name,vip_ip,vip_port,vip_cert,vip_cert_key,vip_pool,vip_desc,create_pool,vip_irules,vip_persist,vip_persist_profile,ssl_parent
 
-Dependencies
-------------
-
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+Sample file can be found under files/<f5_hostname.csv>
 
 Example Playbook
 ----------------
@@ -33,9 +31,9 @@ Including an example of how to use your role (for instance, with variables passe
 License
 -------
 
-BSD
+MIT/BSD
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+This role was created in 2018 by Prasad T.
